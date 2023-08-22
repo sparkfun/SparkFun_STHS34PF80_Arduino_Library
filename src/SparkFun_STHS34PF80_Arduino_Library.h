@@ -15,34 +15,32 @@ Development environment specifics:
 Distributed as-is; no warranty is given.
 ******************************************************************************/
 
-
-#ifndef __SparkFun_STHS34PF80_Arduino_Library_H__
-#define __SparkFun_STHS34PF80_Arduino_Library_H__
-
-#include sths34pf80_reg.h
+#include "sths34pf80_class.h"
+#include "SFE_Bus.h"
 #include <Arduino.h>
 #include <Wire.h>
 
 
-class STHS34PF80
+class STHS34PF80_I2C : public STHS34PF80
 {
     public: 
-    
-    /* 
-        begin()
-        read()
-        write()
-    */
-        
-
-
-    private: 
-        
-
-        /*
-        Bus12C bus; 
-        */
+        bool begin(uint8_t devAddr);
+        static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
+        static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
+        static void delayMS(uint32_t millisec);
+    private:
+        SFE_BusI2C bus;
 };
 
+// class STHS34PF80_SPI
+// {
+//     public: 
+//         bool begin();
+    
+//     private: 
+        
 
-#endif
+//         /*
+//         Bus12C bus; 
+//         */
+// };
