@@ -1,14 +1,24 @@
-#ifndef __SparkFun_Bus_Library_H__
-#define __SparkFun_Bus_Library_H__
+#include "sfe_bus.h"
 
-#include "SFE_Bus.h"
 
+/// @brief Constructor
+/// @param addr 
+/// @param port 
+/// @return 
 bool SFE_BusI2C::init(uint8_t addr, TwoWire& port)
 {
-    devAddr == adrr;
-    devPort = port
+    devAddr = addr;
+    devPort = &port;
+
+    return false;
 }
 
+/// @brief Reads a register at the requested address for the requested 
+///  number of bytes.
+/// @param regAddress Register address
+/// @param dataBuffer Data buffer
+/// @param numBytes Number of bytes requested from register address
+/// @return 
 bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBytes)
 {
     // Jump to desired register address
@@ -31,6 +41,11 @@ bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBy
     return true;
 }
 
+/// @brief Writes to the devices register
+/// @param regAddress Register address 
+/// @param dataBuffer Data buffer
+/// @param numBytes Number of bytes requested from register address
+/// @return Error code (false for error, true for success)
 bool SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_t numBytes)
 {
     // Begin transmission
@@ -54,4 +69,3 @@ bool SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_
     return true;
 }
 
-#endif
