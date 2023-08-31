@@ -12,6 +12,8 @@ class STHS34PF80
         int8_t getError();
         
         sths34pf80_tmos_func_status_t getStatus();
+        int16_t getPresenceValue();
+        int16_t getMotionValue();
         bool getDataReady();
 
 
