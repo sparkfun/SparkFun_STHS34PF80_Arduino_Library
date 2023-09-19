@@ -3,7 +3,11 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <SPI.h>
 
+#define SPI_READ 0x80
+
+namespace sfe_STHS34PF80 {
 
 class SFE_BusI2C
 {
@@ -17,18 +21,31 @@ class SFE_BusI2C
         TwoWire* devPort;
 };
 
+class SfeSPI //: public QwIDeviceBus
+{
+	public:
 
-// class SFE_BusSPI
-// {
-//     public: 
-// 		SfeSPI(void);
+		SfeSPI(void);
 
-//     private:
-// 		SPIClass* _spiPort; 
-// 		// Settings are used for every transaction.
-// 		SPISettings _sfeSPISettings;
-// 		uint8_t _cs; 
-// };
+		bool init(uint8_t cs, bool bInit=false);
+
+		bool init(SPIClass& spiPort, SPISettings& ismSPISettings, uint8_t cs,  bool bInit=false);
+
+		bool writeRegisterByte(uint8_t address, uint8_t offset, uint8_t data);
+
+		int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t* data, uint16_t length);
+
+		int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t* data, uint16_t numBytes);
+
+	private:
+
+		SPIClass* _spiPort; 
+		// Settings are used for every transaction.
+		SPISettings _sfeSPISettings;
+		uint8_t _cs; 
+};
+
+};
 
 
 #endif

@@ -35,17 +35,15 @@ class STHS34PF80_I2C : public STHS34PF80
         SFE_BusI2C bus;
 };
 
- class STHS34PF80_SPI
+class STHS34PF80_SPI : public STHS34PF80
 {
     public: 
         bool begin();
     
     private: 
         
-
-        /*
-        Bus12C bus; 
-        */
+        //Bus12C bus; 
+        
 };
 
 

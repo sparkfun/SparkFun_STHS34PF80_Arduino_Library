@@ -1,35 +1,46 @@
 #include "SparkFun_STHS34PF80_Arduino_Library.h"
 #include <Wire.h>
 
-STHS34PF80_I2C mySensor;
-// STHS34PF80_SPI mySensor; 
+STHS34PF80_SPI mySensor; 
 
-// Values to fill with presence and motion data
+// Presence and Motion variables to fill
 int16_t presenceVal = 0;
 int16_t motionVal = 0;
 
+// Set your chip select pin according to your setup.
+byte chipSelect = 12;
 
 void setup()
 {
+    SPI.begin();
+
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 1: Basic Readings");
 
-    // Begin I2C
-    Wire.begin();
+    pinMode(chipSelect, OUTPUT);
+	  digitalWrite(chipSelect, HIGH);
 
-    // Establish communication with device 
+    Serial.println("STHS34PF80 Example 4: SPI Functionality");
+
+    if( !mySensor.begin(chipSelect) ){
+		  Serial.println("Did not begin.");
+	    while(1);
+	  }
+
+
+    // Start communication with sensor 
     if(mySensor.begin() == false)
     {
       Serial.println("Error"); // fix this print message
       while(1);
     }
 
+    mySensor.begin();
+
     delay(1000);
 }
 
-void loop()
+void loop() 
 {
-
   bool dataReady = mySensor.getDataReady();
     
   if(dataReady == true)
@@ -52,6 +63,4 @@ void loop()
       Serial.println(motionVal);
     }
   }
-      
 }
-

@@ -4,25 +4,28 @@
 STHS34PF80_I2C mySensor;
 // STHS34PF80_SPI mySensor; 
 
-// Values to fill with presence and motion data
+// Global Presence Value
 int16_t presenceVal = 0;
-int16_t motionVal = 0;
-
 
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 1: Basic Readings");
+    Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Presence Output");
 
-    // Begin I2C
     Wire.begin();
 
-    // Establish communication with device 
     if(mySensor.begin() == false)
     {
       Serial.println("Error"); // fix this print message
       while(1);
     }
+
+    mySensor.begin();
+
+    // Sets the data update to the fastest rate
+    mySensor.setBlockDataUpdate(STHS34PF80_TMOS_ODR_AT_30Hz);
+
+    Serial.println("Open the Serial Plotter for graphical viewing");
 
     delay(1000);
 }
@@ -39,19 +42,9 @@ void loop()
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)
     {
-      // Presence Units: cm^-1
       mySensor.getPresenceValue(&presenceVal);
-      Serial.print("Presence: ");
       Serial.println(presenceVal);
-    }
-
-    if(status.mot_flag == 1)
-    {
-      mySensor.getMotionValue(&motionVal);
-      Serial.print("Motion: ");
-      Serial.println(motionVal);
     }
   }
       
 }
-
