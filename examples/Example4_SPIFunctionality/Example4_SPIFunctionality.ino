@@ -36,10 +36,12 @@ void setup()
 
 void loop() 
 {
+  // Checks the data ready status
   bool dataReady = mySensor.getDataReady();
     
   if(dataReady == true)
   {
+    // Get the status of the presence, motion, and temperature registers
     sths34pf80_tmos_func_status_t status = mySensor.getStatus();
     
     // If the flag is high, then read out the information
