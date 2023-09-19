@@ -1,5 +1,7 @@
 #include "SparkFun_STHS34PF80_Arduino_Library.h"
-#include <Wire.h>
+#include <SPI.h>
+
+SPIClass vspi(VSPI);
 
 STHS34PF80_SPI mySensor; 
 
@@ -8,33 +10,26 @@ int16_t presenceVal = 0;
 int16_t motionVal = 0;
 
 // Set your chip select pin according to your setup.
-byte chipSelect = 12;
+uint8_t chipSelect = 12;
 
 void setup()
 {
-    SPI.begin();
+    // SPI begin - initialize values with the pins according to your setup.
+    // vspi.begin(CLOCK, MISO, MOSI, CS)
+    vspi.begin(21, 27, 15, 12);
 
     Serial.begin(115200);
 
+    // Configure the chip select pin
     pinMode(chipSelect, OUTPUT);
 	  digitalWrite(chipSelect, HIGH);
 
     Serial.println("STHS34PF80 Example 4: SPI Functionality");
 
-    if( !mySensor.begin(chipSelect) ){
+    if( !mySensor.begin(chipSelect, vspi) ){
 		  Serial.println("Did not begin.");
 	    while(1);
 	  }
-
-
-    // Start communication with sensor 
-    if(mySensor.begin() == false)
-    {
-      Serial.println("Error"); // fix this print message
-      while(1);
-    }
-
-    mySensor.begin();
 
     delay(1000);
 }

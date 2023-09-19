@@ -1,8 +1,5 @@
 #include "sfe_bus.h"
 
-namespace sfe_STHS34PF80
-{
-
 /// @brief Constructor
 /// @param addr 
 /// @param port 
@@ -206,7 +203,5 @@ int SfeSPI::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_
 		digitalWrite(_cs, HIGH);
     _spiPort->endTransaction();
 		return 0; 
-
-}
 
 }

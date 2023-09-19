@@ -38,11 +38,14 @@ class STHS34PF80_I2C : public STHS34PF80
 class STHS34PF80_SPI : public STHS34PF80
 {
     public: 
-        bool begin();
+        bool begin(uint8_t chipSelect, SPIClass &spiPort);
+        static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
+        static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
+        static void delayMS(uint32_t millisec);
     
     private: 
         
-        //Bus12C bus; 
+        SfeSPI bus; 
         
 };
 

@@ -7,8 +7,6 @@
 
 #define SPI_READ 0x80
 
-namespace sfe_STHS34PF80 {
-
 class SFE_BusI2C
 {
     public: 
@@ -25,7 +23,7 @@ class SfeSPI //: public QwIDeviceBus
 {
 	public:
 
-		SfeSPI(void);
+		// SfeSPI(void);
 
 		bool init(uint8_t cs, bool bInit=false);
 
@@ -44,8 +42,5 @@ class SfeSPI //: public QwIDeviceBus
 		SPISettings _sfeSPISettings;
 		uint8_t _cs; 
 };
-
-};
-
 
 #endif
