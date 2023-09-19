@@ -504,7 +504,7 @@ bool STHS34PF80::getLpfAmbientTempBandwidth(sths34pf80_lpf_bandwidth_t *val)
 ///    STHS34PF80_LPF_ODR_DIV_200 = 0x4
 ///    STHS34PF80_LPF_ODR_DIV_400 = 0x5
 ///    STHS34PF80_LPF_ODR_DIV_800 = 0x6
-/// @param val 
+/// @param val Value to set the ambient tempertature shock detection
 /// @return Error code (0 no error)
 bool STHS34PF80::setLpfAmbientTempBandwidth(sths34pf80_lpf_bandwidth_t val)
 {
@@ -520,7 +520,8 @@ bool STHS34PF80::setLpfAmbientTempBandwidth(sths34pf80_lpf_bandwidth_t val)
 ///    STHS34PF80_LPF_ODR_DIV_200 = 0x4
 ///    STHS34PF80_LPF_ODR_DIV_400 = 0x5
 ///    STHS34PF80_LPF_ODR_DIV_800 = 0x6
-/// @return Low Pass Filter Presence Bandwidth value, -1 for error
+/// @param val Value to fill with the LPF presence bandwidth value 
+/// @return Error code (0 no error)
 bool STHS34PF80::getLpfPresenceBandwidth(sths34pf80_lpf_bandwidth_t *val)
 {
     return sths34pf80_lpf_p_bandwidth_get(&sensor, val);
@@ -535,6 +536,7 @@ bool STHS34PF80::getLpfPresenceBandwidth(sths34pf80_lpf_bandwidth_t *val)
 ///    STHS34PF80_LPF_ODR_DIV_200 = 0x4
 ///    STHS34PF80_LPF_ODR_DIV_400 = 0x5
 ///    STHS34PF80_LPF_ODR_DIV_800 = 0x6
+/// @param val Value to set the LPF presence bandwidth 
 /// @return Error code (0 no error)
 bool STHS34PF80::setLpfPresenceBandwidth(sths34pf80_lpf_bandwidth_t val)
 {
@@ -546,7 +548,8 @@ bool STHS34PF80::setLpfPresenceBandwidth(sths34pf80_lpf_bandwidth_t val)
 ///   STHS34PF80_TMOS_INT_HIZ = 0x0
 ///   STHS34PF80_TMOS_INT_DRDY = 0x1
 ///   STHS34PF80_TMOS_INT_OR = 0x2
-/// @return Interrupts to be routed, -1 for error
+/// @param val Value to fill with the types of interrupts to be routed
+/// @return Error code (0 no error)
 bool STHS34PF80::getTmosRouteInterrupt(sths34pf80_tmos_route_int_t *val)
 {
     return sths34pf80_tmos_route_int_get(&sensor, val);
@@ -557,6 +560,7 @@ bool STHS34PF80::getTmosRouteInterrupt(sths34pf80_tmos_route_int_t *val)
 ///   STHS34PF80_TMOS_INT_HIZ = 0x0
 ///   STHS34PF80_TMOS_INT_DRDY = 0x1
 ///   STHS34PF80_TMOS_INT_OR = 0x2
+/// @param val Value to set the interrupts to be routed
 /// @return Error code (0 no error)
 bool STHS34PF80::setTmosRouteInterrupt(sths34pf80_tmos_route_int_t val)
 {
@@ -572,7 +576,8 @@ bool STHS34PF80::setTmosRouteInterrupt(sths34pf80_tmos_route_int_t val)
 ///   STHS34PF80_TMOS_INT_TSHOCK_PRESENCE = 0x5
 ///   STHS34PF80_TMOS_INT_MOTION_PRESENCE = 0x6
 ///   STHS34PF80_TMOS_INT_ALL = 0x7
-/// @return Selects interrupt output type
+/// @param val Value to fill with the select interrupt output type
+/// @return Error code (0 no error)
 bool STHS34PF80::getTmosInterruptOR(sths34pf80_tmos_int_or_t *val)
 {
     return sths34pf80_tmos_int_or_get(&sensor, val);
@@ -601,7 +606,8 @@ bool STHS34PF80::setTmosInterruptOR(sths34pf80_tmos_int_or_t val)
 ///  for the push-pull/open-drain selection on INT1 and INT2 pins.
 ///   STHS34PF80_ACTIVE_HIGH = 0x0
 ///   STHS34PF80_ACTIVE_LOW = 0x1
-/// @return Interrupt mode (H or L), -1 for error
+/// @param val Interrupt mode (H or L), -1 for error
+/// @return Error code (0 no error)
 bool STHS34PF80::getInterruptMode(sths34pf80_int_mode_t *val)
 {
     return sths34pf80_int_mode_get(&sensor, val);
@@ -622,7 +628,8 @@ bool STHS34PF80::setInterruptMode(sths34pf80_int_mode_t val)
 ///  on the INT pin, or latched (1).
 ///    STHS34PF80_DRDY_PULSED = 0x0
 ///    STHS34PF80_DRDY_LATCHED = 0x1
-/// @return Data ready mode (pulsed or latched)
+/// @param val Data ready mode (pulsed or latched)
+/// @return Error code (0 no error)
 bool STHS34PF80::getDataReadyMode(sths34pf80_drdy_mode_t *val)
 {
     return sths34pf80_drdy_mode_get(&sensor, val);
@@ -641,7 +648,8 @@ bool STHS34PF80::setDataReadyMode(sths34pf80_drdy_mode_t val)
 
 /// @brief This function returns the presence threshold of the device.
 ///  Default value is 200 (0x008C)
-/// @return Presence threshold
+/// @param val Presence threshold of the device 
+/// @return Error code (0 for no error)
 bool STHS34PF80::getPresenceThreshold(uint16_t *val)
 {
     return sths34pf80_presence_threshold_get(&sensor, val);
@@ -658,7 +666,8 @@ bool STHS34PF80::setPresenceThreshold(uint16_t threshold)
 
 /// @brief This function returns the motion threshold of the device. 
 ///  Default value is 200 (0x00C8)
-/// @return Motion threshold
+/// @param val Motion threshold
+/// @return Error code (0 for no error)
 bool STHS34PF80::getMotionThreshold(uint16_t *val)
 {
     return sths34pf80_motion_threshold_get(&sensor, val);
@@ -667,7 +676,7 @@ bool STHS34PF80::getMotionThreshold(uint16_t *val)
 /// @brief This function sets the motion threshold of the device.
 ///  Default value is 200 (0x00C8).
 /// @param threshold 15-bit unsigned integer
-/// @return Error code 
+/// @return Error code (0 for no error)
 bool STHS34PF80::setMotionThreshold(uint8_t threshold)
 {
     return sths34pf80_motion_threshold_set(&sensor, threshold);
@@ -675,7 +684,8 @@ bool STHS34PF80::setMotionThreshold(uint8_t threshold)
 
 /// @brief This function returns the ambient temperature threshold of
 ///  the device. Default value is 10 (0x000A).
-/// @return Ambient temperature shock threshold
+/// @param val Ambient temperature shock threshold
+/// @return Error code (0 for no error)
 bool STHS34PF80::getTAmbientShockThreshold(uint16_t *val)
 {
     return sths34pf80_tambient_shock_threshold_get(&sensor, val);
@@ -684,7 +694,7 @@ bool STHS34PF80::getTAmbientShockThreshold(uint16_t *val)
 /// @brief This function sets the ambient temperature threshold of the
 ///  device. Default value is 10 (0x000A).
 /// @param threshold 15-bit unsigned integer
-/// @return Error code
+/// @return Error code (0 for no error)
 bool STHS34PF80::setTAmbientShockThreshold(uint16_t threshold)
 {
     return sths34pf80_tambient_shock_threshold_set(&sensor, threshold);
@@ -692,7 +702,8 @@ bool STHS34PF80::setTAmbientShockThreshold(uint16_t threshold)
 
 /// @brief This function sets the motion hysteresis of the device. 
 ///  Default value is 0x32.
-/// @return Motion hysteresis 
+/// @param val Motion hysteresis 
+/// @return Error code (0 for no error)
 bool STHS34PF80::getMotionHysteresis(uint8_t *val)
 {
     return sths34pf80_motion_hysteresis_get(&sensor, val);
@@ -701,7 +712,7 @@ bool STHS34PF80::getMotionHysteresis(uint8_t *val)
 /// @brief This function returns the motion hysteresis of the device. 
 ///  Default value is 0x32.
 /// @param hysteresis 8-bit unsigned integer
-/// @return Error code
+/// @return Error code (0 for no error)
 bool STHS34PF80::setMotionHysteresis(uint8_t hysteresis)
 {
     return sths34pf80_motion_hysteresis_set(&sensor, hysteresis);
@@ -709,7 +720,8 @@ bool STHS34PF80::setMotionHysteresis(uint8_t hysteresis)
 
 /// @brief This function returns the presence hysteresis of the 
 ///  device. Default value is 0x32.
-/// @return Presence hysteresis
+/// @param val Presence hysteresis
+/// @return Error code (0 for no error)
 bool STHS34PF80::getPresenceHysteresis(uint8_t *val)
 {
     return sths34pf80_presence_hysteresis_get(&sensor, val);
@@ -718,7 +730,7 @@ bool STHS34PF80::getPresenceHysteresis(uint8_t *val)
 /// @brief This function sets the presence hysteresis of the device. 
 ///  Default value is 0x32.
 /// @param hysteresis 8-bit unsigned integer.
-/// @return Error code
+/// @return Error code (0 for no error)
 bool STHS34PF80::setPresenceHysteresis(uint8_t hysteresis)
 {
     return sths34pf80_presence_hysteresis_set(&sensor, hysteresis);
@@ -726,7 +738,8 @@ bool STHS34PF80::setPresenceHysteresis(uint8_t hysteresis)
 
 /// @brief This function returns the ambient temperature shock hysteresis
 ///  of the device. Default value is 10 (0xA).
-/// @return Ambient temperature shock hysteresis value
+/// @param val Ambient temperature shock hysteresis value
+/// @return Error code (0 for no error)
 bool STHS34PF80::getTAmbientShockHysteresis(uint8_t *val)
 {
     return sths34pf80_tambient_shock_hysteresis_get(&sensor, val);
@@ -734,8 +747,8 @@ bool STHS34PF80::getTAmbientShockHysteresis(uint8_t *val)
 
 /// @brief This function sets the ambient temperature shock hysteresis
 ///  of the device. Default value is 10 (0xA).
-/// @param hysteresis 15-bit unsigned integer
-/// @return Error code
+/// @param hysteresis 15-bit unsigned integer for temp ambient shock hysteresis
+/// @return Error code (0 for no error)
 bool STHS34PF80::setTAmbientShockHysteresis(uint16_t hysteresis)
 {
     return sths34pf80_tambient_shock_hysteresis_set(&sensor, hysteresis);
@@ -743,7 +756,8 @@ bool STHS34PF80::setTAmbientShockHysteresis(uint16_t hysteresis)
 
 /// @brief This function returns if the flag is latched or pulsed 
 ///  on the INT pin. Default value = 0.
-/// @return Latched (0) or Pulsed (1)
+/// @param val Latched (0) or Pulsed (1)
+/// @return Error code (0 for no error)
 bool STHS34PF80::getInterruptPulsed(uint8_t *val)
 {
     return sths34pf80_int_or_pulsed_get(&sensor, val);
@@ -762,7 +776,8 @@ bool STHS34PF80::setInterruptPulsed(uint8_t pulse)
 /// @brief This function returns the Tobject compnesation. This is 
 ///  an embedded linear algorithm for compensating ambient temperature 
 ///  variations in the object temperature. Default value is 0.
-/// @return Disabled (0) or Enabled (1)
+/// @param val Disabled (0) or Enabled (1)
+/// @return Error code (0 no error)
 bool STHS34PF80::getTobjectAlgoCompensation(uint8_t *val)
 {
     return sths34pf80_tobject_algo_compensation_get(&sensor, val);
@@ -772,7 +787,7 @@ bool STHS34PF80::getTobjectAlgoCompensation(uint8_t *val)
 ///  an embedded linear algorithm for compensating ambient temperature 
 ///  variations in the object temperature. Default value is 0.
 /// @param comp Ambient compensation for object temperature (0, 1)
-/// @return Error code
+/// @return Error code (0 no error)
 bool STHS34PF80::setTobjectAlgoCompensation(uint8_t comp)
 {
     return sths34pf80_tobject_algo_compensation_set(&sensor, comp);
@@ -780,7 +795,8 @@ bool STHS34PF80::setTobjectAlgoCompensation(uint8_t comp)
 
 /// @brief This function returns the enable/disable bit for setting
 ///  the presence absolute value algorithm 
-/// @return Absolute value NOT applied (0) or applied (1)
+/// @param val Absolute value NOT applied (0) or applied (1)
+/// @return Error code (0 no error)
 bool STHS34PF80::getPresenceAbsValue(uint8_t *val)
 {
     return sths34pf80_presence_abs_value_get(&sensor, val);
@@ -789,7 +805,7 @@ bool STHS34PF80::getPresenceAbsValue(uint8_t *val)
 /// @brief This function returns the enable/disable bit for setting
 ///  the presence absolute value algorithm 
 /// @param val Presence absolute value (0, 1)
-/// @return Error code
+/// @return Error code (0 no error)
 bool STHS34PF80::setPresenceAbsValue(uint8_t val)
 {
     return sths34pf80_presence_abs_value_set(&sensor, val);
