@@ -2,7 +2,6 @@
 #include <Wire.h>
 
 STHS34PF80_I2C mySensor;
-// STHS34PF80_SPI mySensor; 
 
 // Global Presence Value
 int16_t presenceVal = 0;
@@ -21,9 +20,6 @@ void setup()
     }
 
     mySensor.begin();
-
-    // Sets the data update to the fastest rate
-    mySensor.setBlockDataUpdate(STHS34PF80_TMOS_ODR_AT_30Hz);
 
     Serial.println("Open the Serial Plotter for graphical viewing");
 

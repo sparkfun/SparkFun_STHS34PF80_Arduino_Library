@@ -18,8 +18,6 @@ class STHS34PF80
         bool getTemperatureData(int16_t *tempVal); // Returns the raw temperature value read by the device
         bool getDataReady(); // Returns if the data is ready to be read or not
 
-        //uint8_t getODR();
-
         // -------------------- Functions from sths34pf80_reg.c files --------------------
         bool getDeviceID(uint8_t *devId); // Returns the ID of the STHS34PF80 
 
@@ -55,8 +53,6 @@ class STHS34PF80
         bool getTObjectRawValue(int16_t *val); // Returns the raw value of the TObject Regsiters
         bool getTAmbientRawValue(int16_t *val); // Returns the raw value of the TAmbient Registers
         bool getTObjectCompensatedRawValue(int16_t *val); // Returns the raw value of the TObject Compensated Registers
-        bool getTPresenceRawValue(int16_t *val); // Returns the raw value of the TPresence Registers
-        bool getTMotionRawValue(int16_t *val); // Returns the raw value of the TMotion Registers
         bool getTAmbientShockRawValue(int16_t *val); // Returns the raw value of the TAmbient Shock Registers
 
         // Finish .cpp files

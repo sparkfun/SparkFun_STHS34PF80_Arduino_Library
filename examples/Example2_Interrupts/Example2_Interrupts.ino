@@ -2,16 +2,12 @@
 #include <Wire.h>
 
 STHS34PF80_I2C mySensor;
-// STHS34PF80_SPI mySensor; 
 
-// Values to fill with presence and motion data
+// Values to fill with presence data
 int16_t presenceVal = 0;
-int16_t motionVal = 0;
 
 // Change the pin number to the pin that has been chosen for your setup
 int intPin = 12;
-
-sths34pf80_tmos_route_int_t interruptRoute = STHS34PF80_TMOS_INT_DRDY;
 
 
 void setup()
@@ -30,22 +26,28 @@ void setup()
     }
 
     // Data Ready signal routed to the INT pin
-    mySensor.setTmosRouteInterrupt(interruptRoute);
+    mySensor.setTmosRouteInterrupt(STHS34PF80_TMOS_INT_OR);
 
-    // **FINISH READING INTERRUPT SECTION TO MAKE SURE NO MORE IS NEEDED**
+    // Set the interrupt to read from once triggered
+    mySensor.setTmosInterruptOR(STHS34PF80_TMOS_INT_PRESENCE);
+
+    // Set the ODR to a faster rate for quicker outputs
+    mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_1Hz);
 
     // Set INT pin to be triggered on rising and falling edges of INT pin
     pinMode(intPin, INPUT);
 
-    delay(1000);
+    mySensor.setInterruptPulsed(0);
+
+    delay(500);
 }
 
 void loop() 
 {
-
   // Value to read interrupt pin status
   int interruptVal = digitalRead(intPin);
-    
+  
+  // If interrupt pulse has been triggered
   if(interruptVal == HIGH)
   {
     sths34pf80_tmos_func_status_t status = mySensor.getStatus();
@@ -56,14 +58,8 @@ void loop()
       // Presence Units: cm^-1
       mySensor.getPresenceValue(&presenceVal);
       Serial.print("Presence: ");
-      Serial.println(presenceVal);
-    }
-
-    if(status.mot_flag == 1)
-    {
-      mySensor.getMotionValue(&motionVal);
-      Serial.print("Motion: ");
-      Serial.println(motionVal);
+      Serial.print(presenceVal);
+      Serial.println("cm^-1");
     }
   }
 

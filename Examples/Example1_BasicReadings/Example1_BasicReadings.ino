@@ -2,11 +2,9 @@
 #include <Wire.h>
 
 STHS34PF80_I2C mySensor;
-// STHS34PF80_SPI mySensor; 
 
-// Values to fill with presence and motion data
+// Values to fill with presence data
 int16_t presenceVal = 0;
-int16_t motionVal = 0;
 
 
 void setup()
@@ -24,7 +22,10 @@ void setup()
       while(1);
     }
 
-    delay(1000);
+    // Set the ODR to a faster rate for quicker outputs
+    mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_2Hz);
+
+    delay(500);
 }
 
 void loop()
@@ -42,16 +43,15 @@ void loop()
       // Presence Units: cm^-1
       mySensor.getPresenceValue(&presenceVal);
       Serial.print("Presence: ");
-      Serial.println(presenceVal);
+      Serial.print(presenceVal);
+      Serial.println("cm^-1");
     }
 
+    // Motion detected or not
     if(status.mot_flag == 1)
     {
-      mySensor.getMotionValue(&motionVal);
-      Serial.print("Motion: ");
-      Serial.println(motionVal);
+      Serial.println("Motion detected! ");
     }
   }
       
 }
-

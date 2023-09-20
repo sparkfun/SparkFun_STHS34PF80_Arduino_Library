@@ -384,25 +384,7 @@ bool STHS34PF80::getTObjectCompensatedRawValue(int16_t *val)
     return sths34pf80_tobj_comp_raw_get(&sensor, val);
 }
 
-/// @brief This function returns the raw output value for the data that
-///  represents the presence data. It is composed of TPRESENCE_H and 
-/// TPRESENCE_L (0x3B and 0x3A). The value is expressed as 2's complement.
-/// @param val Raw value from TPresence registers
-/// @return Error code (0 no error)
-bool STHS34PF80::getTPresenceRawValue(int16_t *val)
-{
-    return sths34pf80_tpresence_raw_get(&sensor, val);
-}
 
-/// @brief This function returns the raw output value for the data that
-///  represents the motion data. It is composed of TMOTION_H and TMOTION_L
-///  (0x3D and 0x3C). The value is expressed as 2's complement.
-/// @param val Raw value from TMotion registers
-/// @return Error code (0 no error)
-bool STHS34PF80::getTMotionRawValue(int16_t *val)
-{
-    return sths34pf80_tmotion_raw_get(&sensor, val);
-}
 
 /// @brief This function returns the raw output value for the data that
 ///  represents the ambient temperature shock data. It is composed of 
