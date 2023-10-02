@@ -6,23 +6,27 @@ STHS34PF80_I2C mySensor;
 // Values to fill with presence data
 int16_t presenceVal = 0;
 
-
 void setup()
 {
     Serial.begin(115200);
     Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
-    Wire.begin();
+    if(Wire.begin() == false)
+    {
+      Serial.println("I2C Error");
+      while(1);
+    }
 
     // Establish communication with device 
-    if(mySensor.begin() == false)
+    if(mySensor.begin() != 0)
     {
-      Serial.println("Error"); // fix this print message
+      Serial.println("Error");
       while(1);
     }
 
     // Set the ODR to a faster rate for quicker outputs
+    // Default ODR: 1Hz
     mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_2Hz);
 
     delay(500);
@@ -30,12 +34,15 @@ void setup()
 
 void loop()
 {
-
   bool dataReady = mySensor.getDataReady();
-    
-  if(dataReady == true)
+  
+  // Check if the presence (data ready) flag is high. If so, print the presence value
+  if(dataReady == 1)
   {
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
+    
+    Serial.println("Data ready!");
     
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)
@@ -52,6 +59,10 @@ void loop()
     {
       Serial.println("Motion detected! ");
     }
-  }
-      
+
+    if(status.tamb_shock_flag == 1)
+    {
+      Serial.println("Ambient temperature shock detected! ");
+    }
+  }   
 }

@@ -15,7 +15,7 @@ void setup()
 
     if(mySensor.begin() == false)
     {
-      Serial.println("Error"); // fix this print message
+      Serial.println("Error");
       while(1);
     }
 
@@ -31,7 +31,7 @@ void loop()
 
   bool dataReady = mySensor.getDataReady();
     
-  if(dataReady == true)
+  if(dataReady == 1)
   {
     sths34pf80_tmos_func_status_t status = mySensor.getStatus();
     

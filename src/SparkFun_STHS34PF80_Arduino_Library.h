@@ -22,6 +22,7 @@ Distributed as-is; no warranty is given.
 #include "SFE_Bus.h"
 #include <Arduino.h>
 #include <Wire.h>
+#include <SPI.h>
 
 
 class STHS34PF80_I2C : public STHS34PF80
@@ -45,7 +46,7 @@ class STHS34PF80_SPI : public STHS34PF80
     
     private: 
         
-        SfeSPI bus; 
+        SFE_BusSPI bus; 
         
 };
 

@@ -10,7 +10,7 @@
 class SFE_BusI2C
 {
     public: 
-        bool init(uint8_t addr, TwoWire& port);
+        bool init(uint8_t addr, TwoWire& port=Wire);
         bool readRegs(uint8_t regAddr, uint8_t* data, uint8_t numData);
         bool writeRegs(uint8_t regAddr, const uint8_t* data, uint8_t numData);
 
@@ -19,21 +19,13 @@ class SFE_BusI2C
         TwoWire* devPort;
 };
 
-class SfeSPI //: public QwIDeviceBus
+class SFE_BusSPI 
 {
 	public:
 
-		// SfeSPI(void);
-
-		bool init(uint8_t cs, bool bInit=false);
-
-		bool init(SPIClass& spiPort, SPISettings& ismSPISettings, uint8_t cs,  bool bInit=false);
-
-		bool writeRegisterByte(uint8_t address, uint8_t offset, uint8_t data);
-
-		int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t* data, uint16_t length);
-
-		int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t* data, uint16_t numBytes);
+		bool init(uint8_t cs, SPIClass& spiPort=SPI, bool bInit=false);
+		int writeRegisterRegion(uint8_t offset, const uint8_t* data, uint16_t length);
+		int readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes);
 
 	private:
 
@@ -41,6 +33,7 @@ class SfeSPI //: public QwIDeviceBus
 		// Settings are used for every transaction.
 		SPISettings _sfeSPISettings;
 		uint8_t _cs; 
+
 };
 
 #endif
