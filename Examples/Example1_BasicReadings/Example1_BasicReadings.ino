@@ -47,6 +47,7 @@ void loop()
 
     if(status.mot_flag == 1)
     {
+      Serial.println("Motion Detected!");
       mySensor.getMotionValue(&motionVal);
       Serial.print("Motion: ");
       Serial.println(motionVal);
