@@ -11,17 +11,23 @@ void setup()
     Serial.begin(115200);
     Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Presence Output");
 
-    Wire.begin();
-
-    if(mySensor.begin() == false)
+    // Begin I2C
+    if(Wire.begin() == false)
     {
-      Serial.println("Error");
+      Serial.println("I2C Error - check I2C Address");
       while(1);
     }
 
-    mySensor.begin();
+    // Establish communication with device 
+    if(mySensor.begin() != 0)
+    {
+      Serial.println("Sensor failed to begin - Check wiring.");
+      while(1);
+    }
 
     Serial.println("Open the Serial Plotter for graphical viewing");
+
+    // Default ODR: 1Hz
 
     delay(1000);
 }
@@ -33,7 +39,9 @@ void loop()
     
   if(dataReady == 1)
   {
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
+    
     
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)

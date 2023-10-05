@@ -1,6 +1,6 @@
 #include "SparkFun_STHS34PF80_Arduino_Library.h"
 
-bool STHS34PF80_I2C::begin(uint8_t devAddr)
+int32_t STHS34PF80_I2C::begin(uint8_t devAddr, TwoWire wireSet)
 {
     int32_t busErr = bus.init(devAddr, Wire);
     sensor.read_reg = STHS34PF80_I2C::read;
@@ -12,10 +12,10 @@ bool STHS34PF80_I2C::begin(uint8_t devAddr)
 
     if((beginErr != 0) | (busErr != 0))
     {
-        return false;
+        return true;
     }
 
-    return true; 
+    return false; 
 }
 
 int32_t STHS34PF80_I2C::read(void* bus, uint8_t addr, uint8_t* data, uint16_t numData)
@@ -33,7 +33,7 @@ void STHS34PF80_I2C::delayMS(uint32_t millisec)
     delay(millisec);
 }
 
-bool STHS34PF80_SPI::begin(uint8_t chipSelect, SPIClass &spiPort)
+int32_t STHS34PF80_SPI::begin(uint8_t chipSelect, SPIClass &spiPort)
 {
     int32_t busErr = bus.init(chipSelect, spiPort, false);
     sensor.read_reg = STHS34PF80_SPI::read;
@@ -45,10 +45,10 @@ bool STHS34PF80_SPI::begin(uint8_t chipSelect, SPIClass &spiPort)
 
     if((beginErr != 0) | (busErr != 0))
     {
-        return false;
+        return true;
     }
 
-    return true; 
+    return false; 
 }
 
 int32_t STHS34PF80_SPI::read(void* bus, uint8_t addr, uint8_t* data, uint16_t numData)

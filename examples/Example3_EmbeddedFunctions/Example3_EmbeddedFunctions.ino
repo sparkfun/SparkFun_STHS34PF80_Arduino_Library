@@ -15,11 +15,17 @@ void setup()
     Serial.begin(115200);
     Serial.println("STHS34PF80 Example 3: Using Embedded Functions");
 
-    Wire.begin();
-
-    if(mySensor.begin() == false)
+    // Begin I2C
+    if(Wire.begin() == false)
     {
-      Serial.println("Error"); 
+      Serial.println("I2C Error - check I2C Address");
+      while(1);
+    }
+
+    // Establish communication with device 
+    if(mySensor.begin() != 0)
+    {
+      Serial.println("Sensor failed to begin - Check wiring.");
       while(1);
     }
 
@@ -56,7 +62,8 @@ void loop()
     
   if(dataReady == 1)
   {
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
     
     // Check if the presence (data ready) flag is high. If so, print the presence value
     if(status.pres_flag == 1)

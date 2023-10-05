@@ -28,7 +28,7 @@ Distributed as-is; no warranty is given.
 class STHS34PF80_I2C : public STHS34PF80
 {
     public: 
-        bool begin(uint8_t devAddr = STHS34PF80_I2C_ADD >> 1);
+        int32_t begin(uint8_t devAddr = STHS34PF80_I2C_ADD >> 1, TwoWire wireSet = Wire);
         static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
         static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
         static void delayMS(uint32_t millisec);
@@ -39,7 +39,7 @@ class STHS34PF80_I2C : public STHS34PF80
 class STHS34PF80_SPI : public STHS34PF80
 {
     public: 
-        bool begin(uint8_t chipSelect, SPIClass &spiPort);
+        int32_t begin(uint8_t chipSelect, SPIClass &spiPort=SPI);
         static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
         static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
         static void delayMS(uint32_t millisec);

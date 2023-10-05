@@ -19,8 +19,9 @@ void setup()
 	  digitalWrite(chipSelect, HIGH);
 
     // Begin SPI
-    if( !mySensor.begin(chipSelect) ){
-		  Serial.println("Did not begin.");
+    if( !mySensor.begin(chipSelect) )
+    {
+		  Serial.println("Sensor failed to begin - Check wiring.");
 	    while(1);
 	  }
 

@@ -25,7 +25,7 @@ bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBy
     devPort->write(regAddress);
     if(devPort->endTransmission())
     {
-        return false;
+        return -1;
     }
 
     // Read bytes from these registers
@@ -37,7 +37,7 @@ bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBy
         dataBuffer[i] = devPort->read();
     }
 
-    return true;
+    return false;
 }
 
 /// @brief Writes to the devices register
@@ -62,10 +62,10 @@ bool SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_
     // End transmission
     if(devPort->endTransmission())
     {
-        return false;
+        return -2;
     }
 
-    return true;
+    return false;
 }
 
 
@@ -89,25 +89,25 @@ bool SFE_BusSPI::init(uint8_t cs, SPIClass& spiPort, bool bInit)
             _spiPort->begin();
     }
 
-		// // SPI settings are needed for every transaction
-		// _sfeSPISettings = ismSPISettings; 
+		// SPI settings are needed for every transaction
+		_sfeSPISettings = SPISettings(1000000, MSBFIRST, SPI_MODE0);
 
 		// The chip select pin can vary from platform to platform and project to project
 		// and so it must be given by the user. 
 		if( !cs )
-			return false; 
+			return true; 
 		
 		_cs = cs;
 
-    return true;
+    return false;
 }
 
 /// @brief This function writes a block of data to a device
 /// @param offset Offset of register
 /// @param data Data to write to register
 /// @param length Length of data to be written to register
-/// @return Error code
-int SFE_BusSPI::writeRegisterRegion(uint8_t offset, const uint8_t *data, uint16_t length)
+/// @return Error code (false for error, true for success)
+bool SFE_BusSPI::writeRegisterRegion(uint8_t offset, const uint8_t *data, uint16_t length)
 {
 
 		int i;
@@ -126,18 +126,18 @@ int SFE_BusSPI::writeRegisterRegion(uint8_t offset, const uint8_t *data, uint16_
 		// End communication
 		digitalWrite(_cs, HIGH);
     _spiPort->endTransaction();
-		return 0; 
+		return false; 
 }
 
 /// @brief This function reads a block of data from the register on the device.
 /// @param reg Register
 /// @param data Data to be filled
 /// @param numBytes Number of bytes to read from
-/// @return Returns the data from the register desired to read from.
-int SFE_BusSPI::readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes)
+/// @return Error code (false for error, true for success)
+bool SFE_BusSPI::readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes)
 {
     if (!_spiPort)
-        return -1;
+        return true;
 
     int i; // counter in loop
 
@@ -157,6 +157,6 @@ int SFE_BusSPI::readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes
 		// End transaction
 		digitalWrite(_cs, HIGH);
     _spiPort->endTransaction();
-		return 0; 
+		return false; 
 
 }

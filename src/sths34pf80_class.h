@@ -7,17 +7,19 @@
 class STHS34PF80
 {
     public:
-        bool begin(); // Resets the device and sets the values needed for sensor use
+        int32_t begin(); // Resets the device and sets the values needed for sensor use
         int32_t isConnected(); // Determines connection to device
-        bool getDataReady(); // Returns if the data is ready to be read or not
-        int32_t getStatus(sths34pf80_tmos_func_status_t *status); // Returns the status of the device
+        // bool getDataReady(); // Returns if the data is ready to be read or not
+        int32_t getDataReady(sths34pf80_tmos_drdy_status_t *); // Returns if the data is ready to be read or not
+        int32_t getStatus(sths34pf80_tmos_func_status_t *statusVal); // Returns the status of the device
+        // sths34pf80_tmos_func_status_t getStatus(); // Returns the status of the device
         int32_t reset(); // Set the boot bit, wait 3ms (as per the datasheet), then resets the algorithm
 
         int32_t getPresenceValue(int16_t *presenceVal); // Returns the presence value detected of the device
         int32_t getMotionValue(int16_t *motionVal); // Returns the motion value 
-        int32_t getTemperatureData(int16_t *tempVal); // Returns the raw temperature value read by the device
+        int32_t getTemperatureData(float *tempVal); // Returns the raw temperature value read by the device
 
-        int32_t getODR(sths34pf80_tmos_odr_t *odr);
+        // int32_t getODR(sths34pf80_tmos_odr_t *odr);
 
         int32_t getDeviceID(uint8_t *devId); // Returns the ID of the STHS34PF80 
 
@@ -31,7 +33,7 @@ class STHS34PF80
         int32_t setGainMode(sths34pf80_gain_mode_t mode); // Sets the gain mode of the temperature range
 
         int32_t getTmosSensitivity(float *sense); // Returns the senstivity of data of the TMOS interface data
-        int32_t setTmosSensitivity(float *val); // Sets the sensitivity data for the TMOS interface status
+        int32_t setTmosSensitivity(float val); // Sets the sensitivity data for the TMOS interface status
 
         int32_t getTmosODR(sths34pf80_tmos_odr_t *val); // Returns the block data update feature for output registers
         int32_t setTmosODR(sths34pf80_tmos_odr_t val); // Sets the block data update feature

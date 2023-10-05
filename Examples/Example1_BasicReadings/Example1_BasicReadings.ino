@@ -3,7 +3,7 @@
 
 STHS34PF80_I2C mySensor;
 
-// Values to fill with presence data
+// Value to fill with presence data
 int16_t presenceVal = 0;
 
 void setup()
@@ -12,57 +12,64 @@ void setup()
     Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
-    if(Wire.begin() == false)
+    if (Wire.begin() == false)
     {
-      Serial.println("I2C Error");
-      while(1);
+        Serial.println("I2C Error - check I2C Address");
+        while (1);
     }
 
-    // Establish communication with device 
-    if(mySensor.begin() != 0)
+    // Establish communication with device
+    if (mySensor.begin() != 0) 
     {
-      Serial.println("Error");
-      while(1);
+        Serial.println("Sensor failed to begin - Check wiring.");
+        while (1);
     }
 
     // Set the ODR to a faster rate for quicker outputs
     // Default ODR: 1Hz
-    mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_2Hz);
+    // mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_2Hz);
 
     delay(500);
 }
 
 void loop()
 {
-  bool dataReady = mySensor.getDataReady();
-  
-  // Check if the presence (data ready) flag is high. If so, print the presence value
-  if(dataReady == 1)
-  {
-    sths34pf80_tmos_func_status_t status;
-    mySensor.getStatus(&status);
-    
-    Serial.println("Data ready!");
-    
-    // If the flag is high, then read out the information
-    if(status.pres_flag == 1)
-    {
-      // Presence Units: cm^-1
-      mySensor.getPresenceValue(&presenceVal);
-      Serial.print("Presence: ");
-      Serial.print(presenceVal);
-      Serial.println("cm^-1");
-    }
+    // Check whether sensor has new data
+    // bool dataReady = mySensor.getDataReady();
+    sths34pf80_tmos_drdy_status_t dataReady;
+    int foo = mySensor.getDataReady(&dataReady);
+    Serial.printf("%i, %i\n", dataReady.drdy, foo);
+    delay(10);
 
-    // Motion detected or not
-    if(status.mot_flag == 1)
+    // Check if the presence (data ready) flag is high. If so, print the presence value
+    if (dataReady.drdy == 1)
     {
-      Serial.println("Motion detected! ");
-    }
+        sths34pf80_tmos_func_status_t status;
+        int32_t err = mySensor.getStatus(&status);
+        // sths34pf80_tmos_func_status_t status = mySensor.getStatus();
 
-    if(status.tamb_shock_flag == 1)
-    {
-      Serial.println("Ambient temperature shock detected! ");
+        Serial.println("Data ready!");
+        Serial.println(err);
+
+        // Check if sensor has new data - print information if true
+        if (status.pres_flag == 1)
+        {
+            // Presence Units: cm^-1
+            mySensor.getPresenceValue(&presenceVal);
+            Serial.print("Presence: ");
+            Serial.print(presenceVal);
+            Serial.println("cm^-1");
+        }
+
+        // Motion detected or not
+        if (status.mot_flag == 1)
+        {
+            Serial.println("Motion detected! ");
+        }
+
+        if (status.tamb_shock_flag == 1)
+        {
+            Serial.println("Ambient temperature shock detected! ");
+        }
     }
-  }   
 }

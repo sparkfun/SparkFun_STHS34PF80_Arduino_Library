@@ -24,8 +24,8 @@ class SFE_BusSPI
 	public:
 
 		bool init(uint8_t cs, SPIClass& spiPort=SPI, bool bInit=false);
-		int writeRegisterRegion(uint8_t offset, const uint8_t* data, uint16_t length);
-		int readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes);
+		bool writeRegisterRegion(uint8_t offset, const uint8_t* data, uint16_t length);
+		bool readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes);
 
 	private:
 

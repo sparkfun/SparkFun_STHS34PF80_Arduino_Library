@@ -10,7 +10,7 @@ int16_t presenceVal = 0;
 int intPin = 12;
 
 // Star the flag as false
-bool interruptFlag = false;
+bool volatile interruptFlag = false;
 
 // ISR to set the triggered interrupt
 void isr1()
@@ -21,21 +21,27 @@ void isr1()
 void setup()
 {
     // Begin I2C transactions
-    Wire.begin();
     Serial.begin(115200);
     Serial.println("STHS34PF80 Example 2: Interrupts");
+
+    // Begin I2C
+    if(Wire.begin() == false)
+    {
+      Serial.println("I2C Error - check I2C Address");
+      while(1);
+    }
+
+    // Establish communication with device 
+    if(mySensor.begin() != 0)
+    {
+      Serial.println("Sensor failed to begin - Check wiring.");
+      while(1);
+    }
 
     // Set INT pin to be triggered on rising and falling edges of INT pin
     pinMode(intPin, INPUT);
     // Attach interrupt to the pin as a digital pin that triggers on a change
     attachInterrupt(digitalPinToInterrupt(intPin), isr1, CHANGE);
-
-    // Checks established connection
-    if(mySensor.begin() == false)
-    {
-      Serial.println("Error"); 
-      while(1);
-    }
 
     // Route all interrupts from device to interrupt pin
     mySensor.setTmosRouteInterrupt(STHS34PF80_TMOS_INT_OR);
@@ -56,8 +62,12 @@ void loop()
   if(interruptFlag == true)
   {
     interruptFlag = false;
-
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
+    
+    Serial.println("Data ready!");
+    
     
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)
