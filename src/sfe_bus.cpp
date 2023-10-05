@@ -1,15 +1,15 @@
 #include "sfe_bus.h"
 
 /// @brief Constructor
-/// @param addr 
-/// @param port 
+/// @param addr Address of the device
+/// @param port Wire port chosen to be used for I2C transactions
 /// @return Error code
-bool SFE_BusI2C::init(uint8_t addr, TwoWire& port)
+int32_t SFE_BusI2C::init(uint8_t addr, TwoWire& port)
 {
     devAddr = addr;
     devPort = &port;
 
-    return false;
+    return 0;
 }
 
 /// @brief Reads a register at the requested address for the requested 
@@ -18,14 +18,14 @@ bool SFE_BusI2C::init(uint8_t addr, TwoWire& port)
 /// @param dataBuffer Data buffer
 /// @param numBytes Number of bytes requested from register address
 /// @return Error code (true for success, )
-bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBytes)
+int32_t SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBytes)
 {
     // Jump to desired register address
     devPort->beginTransmission(devAddr);
     devPort->write(regAddress);
     if(devPort->endTransmission())
     {
-        return false;
+        return 0;
     }
 
     // Read bytes from these registers
@@ -37,7 +37,7 @@ bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBy
         dataBuffer[i] = devPort->read();
     }
 
-    return true;
+    return 1;
 }
 
 /// @brief Writes to the devices register
@@ -45,7 +45,7 @@ bool SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t numBy
 /// @param dataBuffer Data buffer
 /// @param numBytes Number of bytes requested from register address
 /// @return Error code (false for error, true for success)
-bool SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_t numBytes)
+int32_t SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_t numBytes)
 {
     // Begin transmission
     devPort->beginTransmission(devAddr);
@@ -77,10 +77,9 @@ bool SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uint8_
 /// @param ismSPISettings SPI settings for every transaction
 /// @param cs Chip Select Pin 
 /// @param bInit True or false for initialization
-/// @return 
-bool SfeSPI::init(SPIClass &spiPort, SPISettings& ismSPISettings, uint8_t cs,  bool bInit)
+/// @return Error code
+int32_t SFE_BusSPI::init(uint8_t cs, SPIClass& spiPort, bool bInit)
 {
-
     // if we don't have a SPI port already
     if( !_spiPort )
     {
@@ -90,59 +89,17 @@ bool SfeSPI::init(SPIClass &spiPort, SPISettings& ismSPISettings, uint8_t cs,  b
             _spiPort->begin();
     }
 
-
 		// SPI settings are needed for every transaction
-		_sfeSPISettings = ismSPISettings; 
+		_sfeSPISettings = SPISettings(1000000, MSBFIRST, SPI_MODE0);
 
 		// The chip select pin can vary from platform to platform and project to project
 		// and so it must be given by the user. 
 		if( !cs )
-			return false; 
+			return 0; 
 		
 		_cs = cs;
 
-    return true;
-}
-
-/// @brief This function contains the methods to init/setup this device. 
-/// @param cs Chip Select
-/// @param bInit Initialize
-/// @return Returns an error code (false no error, true error)
-bool SfeSPI::init(uint8_t cs,  bool bInit)
-{
-
-		//If the transaction settings are not provided by the user they are built here.
-		SPISettings spiSettings = SPISettings(3000000, MSBFIRST, SPI_MODE3); 
-
-		//In addition of the port is not provided by the user, it defaults to SPI here. 
-		return init(SPI, spiSettings, cs, bInit);
-
-}
-
-/// @brief This function writes a byte to a chosen register
-/// @param i2c_address Address to write to
-/// @param offset Offset of regsiter
-/// @param dataToWrite Data to write to register
-/// @return Returns true if byte written, false otherwise 
-bool SfeSPI::writeRegisterByte(uint8_t i2c_address, uint8_t offset, uint8_t dataToWrite)
-{
-
-    if( !_spiPort )
-        return false;
-
-		// Apply settings
-    _spiPort->beginTransaction(_sfeSPISettings);
-		// Signal communication start
-		digitalWrite(_cs, LOW);
-
-    _spiPort->transfer(offset);
-    _spiPort->transfer(dataToWrite);
-
-		// End communcation
-		digitalWrite(_cs, HIGH);
-    _spiPort->endTransaction();
-
-		return true;
+    return 1;
 }
 
 /// @brief This function writes a block of data to a device
@@ -151,9 +108,8 @@ bool SfeSPI::writeRegisterByte(uint8_t i2c_address, uint8_t offset, uint8_t data
 /// @param data Data to write to register
 /// @param length Length of data to be written to register
 /// @return Error code
-int SfeSPI::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8_t *data, uint16_t length)
+int32_t SFE_BusSPI::writeRegisterRegion(uint8_t offset, const uint8_t *data, uint16_t length)
 {
-
 		int i;
 
 		// Apply settings
@@ -179,7 +135,7 @@ int SfeSPI::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8
 /// @param data Data to be filled
 /// @param numBytes Number of bytes to read from
 /// @return Returns the data from the register desired to read from.
-int SfeSPI::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes)
+int32_t SFE_BusSPI::readRegisterRegion(uint8_t reg, uint8_t *data, uint16_t numBytes)
 {
     if (!_spiPort)
         return -1;

@@ -79,10 +79,6 @@ bool STHS34PF80::getDataReady()
 
     return dataReady.drdy;
 }
-// int32_t STHS34PF80::getDataReady(sths34pf80_tmos_drdy_status_t * foo)
-// {
-//     return sths34pf80_tmos_drdy_status_get(&sensor, foo);
-// }
 
 /// @brief This function checks the status of the of the device if
 ///  there is data ready to be read. This value has 3 flags associated
@@ -92,13 +88,6 @@ int32_t STHS34PF80::getStatus(sths34pf80_tmos_func_status_t *statusVal)
 {
     return sths34pf80_tmos_func_status_get(&sensor, statusVal);
 }
-// sths34pf80_tmos_func_status_t STHS34PF80::getStatus()
-// {
-//     sths34pf80_tmos_func_status_t statusVal; // Value to hold presence value
-//     sths34pf80_tmos_func_status_get(&sensor, &statusVal);
-
-//     return statusVal;
-// }
 
 /// @brief This function resets the full device
 /// @return Error code (0 no error)
@@ -161,14 +150,6 @@ int32_t STHS34PF80::getTemperatureData(float *tempVal)
 
     return retVal;
 }
-
-/// @brief This function returns the TMOS ODR
-/// @param odr ODR value
-/// @return Error code (0 no error)
-// int32_t STHS34PF80::getODR(sths34pf80_tmos_odr_t *odr)
-// {
-//     return sths34pf80_tmos_odr_get(&sensor, odr);
-// }
 
 /// @brief Returns the device ID of the STHS34PF80.
 ///   sths34pf80_device_id_get
@@ -253,6 +234,7 @@ int32_t STHS34PF80::getTmosSensitivity(float *sense)
     *sense = (senseFill - res1) / res2;
     return err;
 }
+
 /// @brief Sets the sensitivity value in embedded linear
 ///  algorithm for compensating ambient temperature variations in
 ///  the object temperature.
