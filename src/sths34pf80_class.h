@@ -7,18 +7,20 @@
 class STHS34PF80
 {
     public:
-        bool begin();
-        int32_t isConnected();
-        int8_t getError();
-        int32_t getODR(sths34pf80_tmos_odr_t *odr);
-        
-        sths34pf80_tmos_func_status_t getStatus(); // Returns the status of the device
+        int32_t begin(); // Resets the device and sets the values needed for sensor use
+        int32_t isConnected(); // Determines connection to device
+        bool getDataReady(); // Returns if the data is ready to be read or not
+        // int32_t getDataReady(sths34pf80_tmos_drdy_status_t *); // Returns if the data is ready to be read or not
+        int32_t getStatus(sths34pf80_tmos_func_status_t *statusVal); // Returns the status of the device
+        // sths34pf80_tmos_func_status_t getStatus(); // Returns the status of the device
+        int32_t reset(); // Set the boot bit, wait 3ms (as per the datasheet), then resets the algorithm
+
         int32_t getPresenceValue(int16_t *presenceVal); // Returns the presence value detected of the device
         int32_t getMotionValue(int16_t *motionVal); // Returns the motion value 
-        int32_t getTemperatureData(int16_t *tempVal); // Returns the raw temperature value read by the device
-        bool getDataReady(); // Returns if the data is ready to be read or not
+        int32_t getTemperatureData(float *tempVal); // Returns the raw temperature value read by the device
 
-        // -------------------- Functions from sths34pf80_reg.c files --------------------
+        // int32_t getODR(sths34pf80_tmos_odr_t *odr);
+
         int32_t getDeviceID(uint8_t *devId); // Returns the ID of the STHS34PF80 
 
         int32_t getAverageTObjectNumber(sths34pf80_avg_tobject_num_t *val); // Returns the number of averages
@@ -30,8 +32,8 @@ class STHS34PF80
         int32_t getGainMode(sths34pf80_gain_mode_t *gain); // Returns the gain mode of the temperature range
         int32_t setGainMode(sths34pf80_gain_mode_t mode); // Sets the gain mode of the temperature range
 
-        int32_t getTmosSensitivity(uint16_t *sense); // Returns the senstivity of data of the TMOS interface data
-        int32_t setTmosSensitivity(uint16_t *val); // Sets the sensitivity data for the TMOS interface status
+        int32_t getTmosSensitivity(float *sense); // Returns the senstivity of data of the TMOS interface data
+        int32_t setTmosSensitivity(float val); // Sets the sensitivity data for the TMOS interface status
 
         int32_t getTmosODR(sths34pf80_tmos_odr_t *val); // Returns the block data update feature for output registers
         int32_t setTmosODR(sths34pf80_tmos_odr_t val); // Sets the block data update feature
@@ -53,11 +55,8 @@ class STHS34PF80
         int32_t getTObjectRawValue(int16_t *val); // Returns the raw value of the TObject Regsiters
         int32_t getTAmbientRawValue(int16_t *val); // Returns the raw value of the TAmbient Registers
         int32_t getTObjectCompensatedRawValue(int16_t *val); // Returns the raw value of the TObject Compensated Registers
-        int32_t getTPresenceRawValue(int16_t *val); // Returns the raw value of the TPresence Registers
-        int32_t getTMotionRawValue(int16_t *val); // Returns the raw value of the TMotion Registers
         int32_t getTAmbientShockRawValue(int16_t *val); // Returns the raw value of the TAmbient Shock Registers
 
-        // Finish .cpp files
         int32_t getLpfMotionBandwidth(sths34pf80_lpf_bandwidth_t *val); // Returns the low pass filter configuration for motion
         int32_t setLpfMotionBandwidth(sths34pf80_lpf_bandwidth_t val); // Sets the low-pass filter configuration for motion
         
@@ -111,11 +110,12 @@ class STHS34PF80
 
         int32_t resetAlgo(); // Resets the algo structure of the device 
 
+        int32_t writeFunctionConfiguration(uint8_t addr, uint8_t *data, uint8_t len); // Write interface definition
+        int32_t readFunctionConfiguration(uint8_t addr, uint8_t *data, uint8_t len); // Read interface defintions
+
     protected: 
         stmdev_ctx_t sensor;
 
-        int32_t writeFunctionConfiguration(uint8_t addr, uint8_t *data, uint8_t len); // Write interface definition
-        int32_t readFunctionConfiguration(uint8_t addr, uint8_t *data, uint8_t len); // Read interface defintions
 };
 
 

@@ -43,7 +43,6 @@ void setup()
     // Set hysteresis for the motion sensing
     mySensor.setMotionHysteresis(hysteresis);
 
-
     // Disable access to embedded functions registers
     mySensor.setMemoryBank(bankDisable);
     // Enter continuous mode 

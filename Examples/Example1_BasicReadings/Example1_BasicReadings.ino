@@ -29,12 +29,12 @@ void setup()
 
 void loop()
 {
-
-  bool dataReady = mySensor.getDataReady();
+  bool dataReady =  mySensor.getDataReady();
     
-  if(dataReady == true)
+  if(dataReady == 1)
   {
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
     
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)
@@ -48,11 +48,7 @@ void loop()
     if(status.mot_flag == 1)
     {
       Serial.println("Motion Detected!");
-      mySensor.getMotionValue(&motionVal);
-      Serial.print("Motion: ");
-      Serial.println(motionVal);
     }
   }
       
 }
-
