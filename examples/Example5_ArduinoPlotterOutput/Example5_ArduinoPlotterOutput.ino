@@ -9,7 +9,7 @@ int16_t presenceVal = 0;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 1: Basic Readings");
+    Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Output");
 
     // Begin I2C
     if(Wire.begin() == false)

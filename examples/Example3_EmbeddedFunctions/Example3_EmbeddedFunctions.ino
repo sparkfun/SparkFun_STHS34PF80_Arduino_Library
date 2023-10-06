@@ -13,7 +13,7 @@ uint8_t hysteresis = 100;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 1: Basic Readings");
+    Serial.println("STHS34PF80 Example 1: Using Embedded Functions");
 
     // Begin I2C
     if(Wire.begin() == false)

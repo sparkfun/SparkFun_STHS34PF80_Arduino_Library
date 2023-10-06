@@ -15,11 +15,6 @@ int32_t STHS34PF80::begin()
 
     reset(); // Set boot bit to 1, delay, then reset algorithm
 
-    // Set the boot set to 1
-    //setBootOTP(true);
-    // delay 2.50ms to allow for sensor reset (allows for no power cycling)
-    //sensor.mdelay(3);
-
     // Set temperature object number set average (AVG_TMOS = 32)
     int32_t avgErr = setAverageTObjectNumber(STHS34PF80_AVG_TMOS_32);
 
