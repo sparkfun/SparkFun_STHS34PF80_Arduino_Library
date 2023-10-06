@@ -1,41 +1,34 @@
-SparkFun <PRODUCT NAME>
+SparkFun STHS34PF80 Arduino Library
 ========================================
 
-[![SparkFun Part Name](URL for picture of part)](URL for product on Sparkfun.com)
 
-[*SparkFun Part Name (SKU)*](URL for product on Sparkfun.com)
-
-<Basic description of the part.>
+This is the SparkFun library for the STMicroelectronics STHS34PF80 IR sensor with an operating wavelength between 5 µm and 20 µm with I<sup>2</sup>C and SPI interface. (https://www.sparkfun.com/products/22494). 
 
 Repository Contents
 -------------------
 
-* **/Documentation** - Data sheets, additional product information
-* **/Enclosure** - Enclosure files 
-* **/Firmware** - Example code 
-* **/Hardware** - Eagle design files (.brd, .sch)
-* **/Libraries** - Libraries for use with the <PRODUCT NAME>
-* **/Production** - Production panel files (.brd)
-* **/Software** - Related software for the <PRODUCT NAME>
+* **/examples** - Example sketches for the library (.ino). Run these from the Arduino IDE.
+* **/src** - Source files for the library (.cpp, .h).
+* **/Documentation** - Datasheet and application note for the STHS34PF80.
+* **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE.
+* **library.properties** - General library properties for the Arduino package manager.
+* **[CONTRIBUTING.md](./CONTRIBUTING.md)** - guidance on how to contribute to this library.
+
 
 Documentation
 --------------
-* **[Library](GitHub library URL)** - <LANGUAGE> library for the <PRODUCT NAME>.
-* **[Hookup Guide](Learn.SparkFun URL)** - Basic hookup guide for the <PRODUCT NAME>.
-* **[SparkFun Fritzing repo](https://github.com/sparkfun/Fritzing_Parts)** - Fritzing diagrams for SparkFun products.
-* **[SparkFun 3D Model repo](https://github.com/sparkfun/3D_Models)** - 3D models of SparkFun products. 
-* **[SparkFun Graphical Datasheets](https://github.com/sparkfun/Graphical_Datasheets)** -Graphical Datasheets for various SparkFun products.
 
-Product Versions
-----------------
-* [Part SKU](part URL) - Basic part and short description here
-* [Retail part SKU](retail URL) - Retail packaging of standard description here
-* [Any other parts this repo covers](any other URLs) - Description of said parts
+* **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
+* **[Hookup Guide](https://docs.sparkfun.com/SparkFun_IoT_Brushless_Motor_Driver)** - Basic hookup guide for the SparkFun IoT Motor Driver Breakout (ESP32, TMC6300).
+* **[Product Repository](https://github.com/sparkfun/SparkFun_IoT_Brushless_Motor_Driver)** - Main repository for the IoT Motor Driver (including hardware files)
 
-Version History
----------------
-* [vExxFxxZxxHxxLxxSxx](URL for tag specific to this version) - Description 
-* [vEyyFyyZyyHyyLyySyy](URL for tag specific to this version) - Description
+
+Products that use this Library 
+---------------------------------
+
+* [*SEN-22494*](https://www.sparkfun.com/products/22494)
+* [*SEN-23253*](https://www.sparkfun.com/products/23253)
+
 
 License Information
 -------------------

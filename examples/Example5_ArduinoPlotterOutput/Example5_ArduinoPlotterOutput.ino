@@ -2,7 +2,6 @@
 #include <Wire.h>
 
 STHS34PF80_I2C mySensor;
-// STHS34PF80_SPI mySensor; 
 
 // Global Presence Value
 int16_t presenceVal = 0;
@@ -10,20 +9,21 @@ int16_t presenceVal = 0;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Presence Output");
+    Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Output");
 
-    Wire.begin();
-
-    if(mySensor.begin() == false)
+    // Begin I2C
+    if(Wire.begin() == 0)
     {
-      Serial.println("Error"); // fix this print message
+      Serial.println("I2C Error - check I2C Address");
       while(1);
     }
 
-    mySensor.begin();
-
-    // Sets the data update to the fastest rate
-    mySensor.setBlockDataUpdate(STHS34PF80_TMOS_ODR_AT_30Hz);
+    // Establish communication with device 
+    if(mySensor.begin() != 0)
+    {
+      Serial.println("Error setting up device - please check wiring.");
+      while(1);
+    }
 
     Serial.println("Open the Serial Plotter for graphical viewing");
 
@@ -32,12 +32,15 @@ void setup()
 
 void loop()
 {
+  sths34pf80_tmos_drdy_status_t dataReady;
+  mySensor.getDataReady(&dataReady);
 
-  bool dataReady = mySensor.getDataReady();
-    
-  if(dataReady == true)
+  // Check whether sensor has new data - run through loop if data is ready
+  if(dataReady.drdy == 1)
   {
-    sths34pf80_tmos_func_status_t status = mySensor.getStatus();
+    sths34pf80_tmos_func_status_t status;
+    mySensor.getStatus(&status);
+    
     
     // If the flag is high, then read out the information
     if(status.pres_flag == 1)
