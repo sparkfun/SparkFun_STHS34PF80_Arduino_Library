@@ -26,8 +26,8 @@ int32_t STHS34PF80::begin()
     // Set ambient temperature average (AVG_TAMB = 8)
     int32_t tAmbErr = setAverageTAmbientNumber(STHS34PF80_AVG_T_8);
 
-    // Block data rate update (BDU) to 1Hz
-    int32_t blockErr = setBlockDataUpdate(STHS34PF80_TMOS_ODR_AT_1Hz);
+    // Set block data rate update to true
+    int32_t blockErr = setBlockDataUpdate(true);
 
     // Set the data rate (ODR) to 1Hz
     int32_t odrErr = setTmosODR(STHS34PF80_TMOS_ODR_AT_1Hz);
@@ -71,13 +71,9 @@ int32_t STHS34PF80::isConnected()
 
 /// @brief Checks to see if the data ready flag is high
 /// @return Data ready code (0 for not ready, 1 for ready)
-bool STHS34PF80::getDataReady()
+int32_t STHS34PF80::getDataReady(sths34pf80_tmos_drdy_status_t *drdy)
 {
-    sths34pf80_tmos_drdy_status_t dataReady;
-
-    sths34pf80_tmos_drdy_status_get(&sensor, &dataReady);
-
-    return dataReady.drdy;
+    return sths34pf80_tmos_drdy_status_get(&sensor, drdy);
 }
 
 /// @brief This function checks the status of the of the device if
@@ -146,7 +142,7 @@ int32_t STHS34PF80::getTemperatureData(float *tempVal)
     int32_t retVal = sths34pf80_tobject_raw_get(&sensor, &tempValFill);
 
     // Divide the raw value by the sensitivity
-    *tempVal = tempValFill / sensitivity;
+    *tempVal = (float)tempValFill / sensitivity;
 
     return retVal;
 }
@@ -231,7 +227,7 @@ int32_t STHS34PF80::getTmosSensitivity(float *sense)
     uint16_t res1 = 2048;
     float res2 = 16;
 
-    *sense = (senseFill - res1) / res2;
+    *sense = (float)(senseFill - res1) / res2;
     return err;
 }
 
@@ -292,9 +288,9 @@ int32_t STHS34PF80::setTmosODR(sths34pf80_tmos_odr_t val)
 ///  for output registers TOBJECT (26h - 27h) and TAMBIENT (28h - 29h).
 /// @param val Block data update bit (0 disabled, 1 enabled), -1 for error
 /// @return Error code (0 no error)
-int32_t STHS34PF80::getBlockDataUpdate(uint8_t *val)
+int32_t STHS34PF80::getBlockDataUpdate(bool *val)
 {
-    return sths34pf80_block_data_update_get(&sensor, val);
+    return sths34pf80_block_data_update_get(&sensor, (uint8_t*)val);
 }
 
 /// @brief This function sets the block data update feature
@@ -302,7 +298,7 @@ int32_t STHS34PF80::getBlockDataUpdate(uint8_t *val)
 ///  Block data update bit (0 disabled, 1 enabled)
 /// @param val Value to set the block data update bit
 /// @return Error code (0 no error)
-int32_t STHS34PF80::setBlockDataUpdate(uint8_t val)
+int32_t STHS34PF80::setBlockDataUpdate(bool val)
 {
     return sths34pf80_block_data_update_set(&sensor, val);
 }

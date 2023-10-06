@@ -20,7 +20,6 @@ void isr1()
 
 void setup()
 {
-    // Begin I2C transactions
     Serial.begin(115200);
     Serial.println("STHS34PF80 Example 2: Interrupts");
 

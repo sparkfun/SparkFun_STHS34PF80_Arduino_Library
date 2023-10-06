@@ -9,7 +9,7 @@ class STHS34PF80
     public:
         int32_t begin(); // Resets the device and sets the values needed for sensor use
         int32_t isConnected(); // Determines connection to device
-        bool getDataReady(); // Returns if the data is ready to be read or not
+        int32_t getDataReady(sths34pf80_tmos_drdy_status_t *drdy); // Returns if the data is ready to be read or not
         int32_t getStatus(sths34pf80_tmos_func_status_t *statusVal); // Returns the status of the device
         int32_t reset(); // Set the boot bit, wait 3ms (as per the datasheet), then resets the algorithm
 
@@ -34,8 +34,8 @@ class STHS34PF80
         int32_t getTmosODR(sths34pf80_tmos_odr_t *val); // Returns the block data update feature for output registers
         int32_t setTmosODR(sths34pf80_tmos_odr_t val); // Sets the block data update feature
 
-        int32_t getBlockDataUpdate(uint8_t *val); // Enables the block data update feature 
-        int32_t setBlockDataUpdate(uint8_t val); // Sets the block data
+        int32_t getBlockDataUpdate(bool *val); // Enables the block data update feature 
+        int32_t setBlockDataUpdate(bool val); // Sets the block data
 
         int32_t getTmosOneShot(sths34pf80_tmos_one_shot_t *val); // Returns the state of the trigger one-shot acquisition
         int32_t setTmosOneShot(sths34pf80_tmos_one_shot_t val); // Sets the trigger one-shot acquisiton

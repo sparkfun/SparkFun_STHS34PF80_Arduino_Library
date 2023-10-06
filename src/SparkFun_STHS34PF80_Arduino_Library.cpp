@@ -1,6 +1,6 @@
 #include "SparkFun_STHS34PF80_Arduino_Library.h"
 
-int32_t STHS34PF80_I2C::begin(uint8_t devAddr)
+int32_t STHS34PF80_I2C::begin(uint8_t devAddr, TwoWire& wirePort)
 {
     bus.init(devAddr, Wire);
     sensor.read_reg = STHS34PF80_I2C::read;

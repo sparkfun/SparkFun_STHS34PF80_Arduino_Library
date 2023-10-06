@@ -27,8 +27,6 @@ void setup()
 
     Serial.println("Open the Serial Plotter for graphical viewing");
 
-    // Default ODR: 1Hz
-
     delay(1000);
 }
 
