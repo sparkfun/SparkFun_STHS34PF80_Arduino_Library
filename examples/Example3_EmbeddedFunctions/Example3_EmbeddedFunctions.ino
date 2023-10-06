@@ -13,7 +13,7 @@ uint8_t hysteresis = 100;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 3: Using Embedded Functions");
+    Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
     if(Wire.begin() == false)
@@ -23,9 +23,9 @@ void setup()
     }
 
     // Establish communication with device 
-    if(mySensor.begin() != 0)
+    if(mySensor.begin() == false)
     {
-      Serial.println("Sensor failed to begin - Check wiring.");
+      Serial.println("Error setting up device - please check wiring.");
       while(1);
     }
 
@@ -57,10 +57,12 @@ void setup()
 
 void loop() 
 {
-    // General presence and motion read (from example 1)
-  bool dataReady = mySensor.getDataReady();
-    
-  if(dataReady == 1)
+  // General presence and motion read (from example 1)
+  sths34pf80_tmos_drdy_status_t dataReady;
+  mySensor.getDataReady(&dataReady);
+
+  // Check whether sensor has new data - run through loop if data is ready
+  if(dataReady.drdy == 1)
   {
     sths34pf80_tmos_func_status_t status;
     mySensor.getStatus(&status);

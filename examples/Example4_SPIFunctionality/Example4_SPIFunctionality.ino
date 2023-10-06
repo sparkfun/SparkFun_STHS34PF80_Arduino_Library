@@ -19,11 +19,18 @@ void setup()
 	  digitalWrite(chipSelect, HIGH);
 
     // Begin SPI
-    if( !mySensor.begin(chipSelect) )
+    if(SPI.begin() == false)
     {
-		  Serial.println("Sensor failed to begin - Check wiring.");
-	    while(1);
-	  }
+      Serial.println("SPI Error - check SPI Wiring");
+      while(1);
+    }
+
+    // Establish communication with device 
+    if(mySensor.begin(chipSelect) == false)
+    {
+      Serial.println("Error setting up device - please check wiring.");
+      while(1);
+    }
 
     // Set the ODR to a faster rate for quicker outputs
     // Default ODR: 1Hz
@@ -34,35 +41,36 @@ void setup()
 
 void loop() 
 {
-  bool dataReady = mySensor.getDataReady();
-    
-  // Check if the presence (data ready) flag is high. If so, print the presence value
-  if(dataReady == 1)
+  sths34pf80_tmos_drdy_status_t dataReady;
+  mySensor.getDataReady(&dataReady);
+
+  // Check whether sensor has new data - run through loop if data is ready
+  if(dataReady.drdy == 1)
   {
     sths34pf80_tmos_func_status_t status;
     mySensor.getStatus(&status);
     
-    Serial.println("Data ready!");
-    
-    // If the flag is high, then read out the information
+    // If presence flag is high, then print data
     if(status.pres_flag == 1)
     {
       // Presence Units: cm^-1
       mySensor.getPresenceValue(&presenceVal);
       Serial.print("Presence: ");
       Serial.print(presenceVal);
-      Serial.println("cm^-1");
+      Serial.println(" cm^-1");
     }
 
-    // Motion detected or not
     if(status.mot_flag == 1)
     {
-      Serial.println("Motion detected! ");
+      Serial.println("Motion Detected!");
     }
 
     if(status.tamb_shock_flag == 1)
     {
-      Serial.println("Ambient temperature shock detected! ");
+      mySensor.getTemperatureData(&temperatureVal);
+      Serial.print("Temperature: ");
+      Serial.print(temperatureVal);
+      Serial.println(" °C");
     }
   }
 }

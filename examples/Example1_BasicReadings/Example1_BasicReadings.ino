@@ -6,6 +6,7 @@ STHS34PF80_I2C mySensor;
 // Values to fill with presence and motion data
 int16_t presenceVal = 0;
 int16_t motionVal = 0;
+float temperatureVal = 0;
 
 
 void setup()
@@ -47,12 +48,21 @@ void loop()
       // Presence Units: cm^-1
       mySensor.getPresenceValue(&presenceVal);
       Serial.print("Presence: ");
-      Serial.println(presenceVal);
+      Serial.print(presenceVal);
+      Serial.println(" cm^-1");
     }
 
     if(status.mot_flag == 1)
     {
       Serial.println("Motion Detected!");
+    }
+
+    if(status.tamb_shock_flag == 1)
+    {
+      mySensor.getTemperatureData(&temperatureVal);
+      Serial.print("Temperature: ");
+      Serial.print(temperatureVal);
+      Serial.println(" °C");
     }
   }
       

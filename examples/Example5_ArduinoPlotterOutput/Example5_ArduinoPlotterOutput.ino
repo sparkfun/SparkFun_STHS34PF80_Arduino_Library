@@ -9,7 +9,7 @@ int16_t presenceVal = 0;
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("STHS34PF80 Example 5: Arduino Serial Plotter Presence Output");
+    Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
     if(Wire.begin() == false)
@@ -19,9 +19,9 @@ void setup()
     }
 
     // Establish communication with device 
-    if(mySensor.begin() != 0)
+    if(mySensor.begin() == false)
     {
-      Serial.println("Sensor failed to begin - Check wiring.");
+      Serial.println("Error setting up device - please check wiring.");
       while(1);
     }
 
@@ -32,10 +32,11 @@ void setup()
 
 void loop()
 {
+  sths34pf80_tmos_drdy_status_t dataReady;
+  mySensor.getDataReady(&dataReady);
 
-  bool dataReady = mySensor.getDataReady();
-    
-  if(dataReady == 1)
+  // Check whether sensor has new data - run through loop if data is ready
+  if(dataReady.drdy == 1)
   {
     sths34pf80_tmos_func_status_t status;
     mySensor.getStatus(&status);
