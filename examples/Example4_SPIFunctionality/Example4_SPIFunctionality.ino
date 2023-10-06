@@ -5,6 +5,7 @@ STHS34PF80_SPI mySensor;
 
 // Presence and Motion variables to fill
 int16_t presenceVal = 0;
+float temperatureVal = 0;
 
 // Set your chip select pin according to your setup
 uint8_t chipSelect = 12;
@@ -19,22 +20,14 @@ void setup()
 	  digitalWrite(chipSelect, HIGH);
 
     // Begin SPI
-    if(SPI.begin() == false)
-    {
-      Serial.println("SPI Error - check SPI Wiring");
-      while(1);
-    }
+    SPI.begin();
 
     // Establish communication with device 
-    if(mySensor.begin(chipSelect) == false)
+    if(mySensor.begin(chipSelect) != 0)
     {
       Serial.println("Error setting up device - please check wiring.");
       while(1);
     }
-
-    // Set the ODR to a faster rate for quicker outputs
-    // Default ODR: 1Hz
-    mySensor.setTmosODR(STHS34PF80_TMOS_ODR_AT_2Hz);
 
     delay(500);
 }
@@ -43,6 +36,7 @@ void loop()
 {
   sths34pf80_tmos_drdy_status_t dataReady;
   mySensor.getDataReady(&dataReady);
+  Serial.println(dataReady.drdy);
 
   // Check whether sensor has new data - run through loop if data is ready
   if(dataReady.drdy == 1)

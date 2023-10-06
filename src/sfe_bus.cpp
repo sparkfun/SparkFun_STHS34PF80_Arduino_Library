@@ -37,7 +37,7 @@ int32_t SFE_BusI2C::readRegs(uint8_t regAddress, uint8_t* dataBuffer, uint8_t nu
         dataBuffer[i] = devPort->read();
     }
 
-    return 1;
+    return 0;
 }
 
 /// @brief Writes to the devices register
@@ -62,10 +62,10 @@ int32_t SFE_BusI2C::writeRegs(uint8_t regAddress, const uint8_t* dataBuffer, uin
     // End transmission
     if(devPort->endTransmission())
     {
-        return false;
+        return -1;
     }
 
-    return true;
+    return 0;
 }
 
 
@@ -95,11 +95,11 @@ int32_t SFE_BusSPI::init(uint8_t cs, SPIClass& spiPort, bool bInit)
 		// The chip select pin can vary from platform to platform and project to project
 		// and so it must be given by the user. 
 		if( !cs )
-			return 0; 
+			return -1; 
 		
 		_cs = cs;
 
-    return 1;
+    return 0;
 }
 
 /// @brief This function writes a block of data to a device

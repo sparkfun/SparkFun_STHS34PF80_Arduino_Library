@@ -15,14 +15,14 @@ void setup()
     Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
-    if(Wire.begin() == false)
+    if(Wire.begin() == 0)
     {
       Serial.println("I2C Error - check I2C Address");
       while(1);
     }
 
     // Establish communication with device 
-    if(mySensor.begin() == false)
+    if(mySensor.begin() != 0)
     {
       Serial.println("Error setting up device - please check wiring.");
       while(1);

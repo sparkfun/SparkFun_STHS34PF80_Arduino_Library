@@ -10,7 +10,7 @@ int32_t STHS34PF80_I2C::begin(uint8_t devAddr, TwoWire& wirePort)
 
     STHS34PF80::begin();
 
-    return true; // returns error code here
+    return 0; // returns error code here
 }
 
 int32_t STHS34PF80_I2C::read(void* bus, uint8_t addr, uint8_t* data, uint16_t numData)
@@ -42,7 +42,7 @@ int32_t STHS34PF80_SPI::begin(uint8_t chipSelect, SPIClass &spiPort)
 
     STHS34PF80::begin();
 
-    return true; // returns error code here
+    return 0; // returns error code here
 }
 
 int32_t STHS34PF80_SPI::read(void* bus, uint8_t addr, uint8_t* data, uint16_t numData)
