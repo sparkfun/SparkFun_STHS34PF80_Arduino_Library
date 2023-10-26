@@ -54,7 +54,7 @@ STHS34PF80_I2C mySensor;
 int16_t presenceVal = 0;
 
 // Change the pin number to the pin that has been chosen for your setup
-int intPin = 12;
+int intPin = 2;
 
 // Star the flag as false
 bool volatile interruptFlag = false;

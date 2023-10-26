@@ -31,9 +31,9 @@
   with a resistive divider using the header pins like so: 
 
   ARDUINO --> STHS34PF80
-  SCK/SCL (8) --> Clock
+  SCK/SCL (13) --> Clock
   SDI/SDA (12) --> Data in
-  !CS (13) --> Chip Select
+  !CS (10) --> Chip Select
   3.3V --> 3.3V
   GND --> GND
 
