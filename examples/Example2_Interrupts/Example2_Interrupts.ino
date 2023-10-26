@@ -32,7 +32,7 @@
   ARDUINO --> STHS34PF80
   SDA (A4) --> SDA
   SCL (A5) --> SCL
-  INT (A3) --> INT
+  INT (2) --> INT
   3.3V --> 3.3V
   GND --> GND
 

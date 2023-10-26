@@ -56,7 +56,7 @@ int16_t presenceVal = 0;
 float temperatureVal = 0;
 
 // Set your chip select pin according to your setup
-uint8_t chipSelect = 12;
+uint8_t chipSelect = 10;
 
 void setup()
 {
