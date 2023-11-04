@@ -19,8 +19,8 @@ Documentation
 --------------
 
 * **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
-* **[Hookup Guide](https://docs.sparkfun.com/SparkFun_IoT_Brushless_Motor_Driver)** - Basic hookup guide for the SparkFun IoT Motor Driver Breakout (ESP32, TMC6300).
-* **[Product Repository](https://github.com/sparkfun/SparkFun_IoT_Brushless_Motor_Driver)** - Main repository for the IoT Motor Driver (including hardware files)
+* **[Hookup Guide](https://docs.sparkfun.com/SparkFun_Qwiic_Human_Presence_Sensor-STHS34PF80/introduction/)** - Basic hookup guide for the SparkFun Qwiic STHS34PF80.
+* **[Product Repository](https://github.com/sparkfun/SparkFun_Qwiic_Human_Presence_Sensor-STHS34PF80)** - Main repository for the SparkFun Qwiic STHS34PF80 (including hardware files)
 
 
 Products that use this Library 
