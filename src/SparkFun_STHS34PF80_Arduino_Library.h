@@ -19,7 +19,7 @@ Distributed as-is; no warranty is given.
 
 
 #include "sths34pf80_class.h"
-#include "SFE_Bus.h"
+#include "sfe_bus.h"
 #include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -28,7 +28,7 @@ Distributed as-is; no warranty is given.
 class STHS34PF80_I2C : public STHS34PF80
 {
     public: 
-        int32_t begin(uint8_t devAddr = STHS34PF80_I2C_ADD >> 1, TwoWire& wirePort = Wire);
+        bool begin(uint8_t devAddr = STHS34PF80_I2C_ADDRESS, TwoWire& wirePort = Wire);
         static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
         static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
         static void delayMS(uint32_t millisec);
@@ -39,7 +39,7 @@ class STHS34PF80_I2C : public STHS34PF80
 class STHS34PF80_SPI : public STHS34PF80
 {
     public: 
-        int32_t begin(uint8_t chipSelect, SPIClass &spiPort=SPI);
+        bool begin(uint8_t chipSelect, SPIClass &spiPort=SPI);
         static int32_t read(void *, uint8_t, uint8_t *, uint16_t);
         static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
         static void delayMS(uint32_t millisec);
