@@ -4,6 +4,11 @@
 #include "sths34pf80_api/sths34pf80_reg.h"
 #include "sfe_bus.h"
 
+
+// define a standard i2c address (7 bit) macro
+
+#define STHS34PF80_I2C_ADDRESS (STHS34PF80_I2C_ADD >> 1)
+
 class STHS34PF80
 {
     public:
