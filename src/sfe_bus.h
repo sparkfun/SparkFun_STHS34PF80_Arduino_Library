@@ -1,38 +1,125 @@
-#ifndef __SparkFun_Bus_H__
-#define __SparkFun_Bus_H__
+// sfe_bus.h
+//
+// This is a library written for SparkFun Human Presence Sensor STHS34PF80
+// (Qwiic)
+//
+// SparkFun sells these boards at its website: www.sparkfun.com
+//
+// Do you like this library? Help support SparkFun. Buy a board!
+//
+// SparkFun Human Presence Sensor STHS34PF80 (Qwiic)
+// https://www.sparkfun.com/products/22494
+//
+// Written by Madison Chodikov @ SparkFun Electronics, October 2022
+//
+// Repository:
+//		hhttps://github.com/sparkfun/SparkFun_STHS34PF80_Arduino_Library/tree/main
+//
+//
+// SparkFun code, firmware, and software is released under the MIT
+// License(http://opensource.org/licenses/MIT).
+//
+// SPDX-License-Identifier: MIT
+//
+//    The MIT License (MIT)
+//
+//    Copyright (c) 2022 SparkFun Electronics
+//    Permission is hereby granted, free of charge, to any person obtaining a
+//    copy of this software and associated documentation files (the "Software"),
+//    to deal in the Software without restriction, including without limitation
+//    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//    and/or sell copies of the Software, and to permit persons to whom the
+//    Software is furnished to do so, subject to the following conditions: The
+//    above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
+//    "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+//    NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+//    PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//    HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+//    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#include <Arduino.h>
-#include <Wire.h>
+// The following classes specify the behavior for communicating
+// over the respective data buses: Inter-Integrated Circuit (I2C)
+// and Serial Peripheral Interface (SPI). For ease of implementation
+// an abstract interface (QwIDeviceBus) is used.
+
+#pragma once
+
 #include <SPI.h>
+#include <Wire.h>
 
-#define SPI_READ 0x80
-
-class SFE_BusI2C
+namespace sfe_STHS34PF80
 {
-    public: 
-        int32_t init(uint8_t addr, TwoWire& port=Wire);
-        int32_t readRegs(uint8_t regAddr, uint8_t* data, uint8_t numData);
-        int32_t writeRegs(uint8_t regAddr, const uint8_t* data, uint8_t numData);
+// The following abstract class is used an interface for upstream
+// implementation.
+class QwIDeviceBus
+{
+  public:
+    virtual bool ping(uint8_t address) = 0;
 
-    private:
-        uint8_t devAddr;
-        TwoWire* devPort;
+    virtual bool writeRegisterByte(uint8_t address, uint8_t offset, uint8_t data) = 0;
+
+    virtual int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length) = 0;
+
+    virtual int writeRegisterRegion(uint8_t address, uint8_t offset, uint8_t data, uint16_t length) = 0;
+
+    virtual int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes) = 0;
 };
 
-class SFE_BusSPI 
+// The QwI2C device defines behavior for I2C implementation based around the
+// TwoWire class (Wire). This is Arduino specific.
+class QwI2C : public QwIDeviceBus
 {
-	public:
+  public:
+    QwI2C(void);
 
-		int32_t init(uint8_t cs, SPIClass& spiPort=SPI, bool bInit=false);
-		int32_t writeRegisterRegion(uint8_t offset, const uint8_t* data, uint16_t length);
-		int32_t readRegisterRegion(uint8_t reg, uint8_t* data, uint16_t numBytes);
+    bool init();
 
-	private:
+    bool init(TwoWire &wirePort, bool bInit = false);
 
-		SPIClass* _spiPort; 
-		// Settings are used for every transaction.
-		SPISettings _sfeSPISettings;
-		uint8_t _cs; 
+    bool ping(uint8_t address);
+
+    bool writeRegisterByte(uint8_t address, uint8_t offset, uint8_t data);
+
+    int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length);
+
+    int writeRegisterRegion(uint8_t address, uint8_t offset, uint8_t data, uint16_t length);
+
+    int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes);
+
+  private:
+    TwoWire *_i2cPort;
 };
 
-#endif
+// The SfeSPI class defines behavior for SPI implementation based around the
+// SPIClass class (SPI). This is Arduino specific. Paramaters like "address" are
+// kept although irrelevant to SPI due to the use of the abstract class as
+// interface, QwIDeviceBus.
+class SfeSPI : public QwIDeviceBus
+{
+  public:
+    SfeSPI(void);
+
+    bool init(uint8_t cs, bool bInit = false);
+
+    bool init(SPIClass &spiPort, SPISettings &sthsSPISettings, uint8_t cs, bool bInit = false);
+
+    bool ping(uint8_t address);
+
+    bool writeRegisterByte(uint8_t address, uint8_t offset, uint8_t data);
+
+    int writeRegisterRegion(uint8_t address, uint8_t offset, const uint8_t *data, uint16_t length);
+
+    int writeRegisterRegion(uint8_t address, uint8_t offset, uint8_t data, uint16_t length);
+
+    int readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_t numBytes);
+
+  private:
+    SPIClass *_spiPort;
+    // Settings are used for every transaction.
+    SPISettings _sfeSPISettings;
+    uint8_t _cs;
+};
+
+}; // namespace sfe_STHS34PF80

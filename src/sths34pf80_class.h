@@ -14,6 +14,7 @@ class STHS34PF80
     public:
         int32_t begin(); // Resets the device and sets the values needed for sensor use
         int32_t isConnected(); // Determines connection to device
+        
         int32_t getDataReady(sths34pf80_tmos_drdy_status_t *drdy); // Returns if the data is ready to be read or not
         int32_t getStatus(sths34pf80_tmos_func_status_t *statusVal); // Returns the status of the device
         int32_t reset(); // Set the boot bit, wait 3ms (as per the datasheet), then resets the algorithm

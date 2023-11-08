@@ -8,7 +8,7 @@
 /// @return Error code (0 no error)
 int32_t STHS34PF80::begin()
 {
-    if (isConnected() == 0)
+    if (isConnected() != 0)
     {
         return -1;
     }
@@ -57,11 +57,11 @@ int32_t STHS34PF80::isConnected()
     uint8_t devId = 0;
     int32_t err = sths34pf80_device_id_get(&sensor, &devId);
 
-    if (devId == STHS34PF80_ID)
+    if (devId != STHS34PF80_ID)
     {
         return -1;
     }
-    return err;
+    return err; 
 }
 
 /// @brief Checks to see if the data ready flag is high

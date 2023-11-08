@@ -33,7 +33,8 @@ class STHS34PF80_I2C : public STHS34PF80
         static int32_t write(void *, uint8_t, const uint8_t *, uint16_t);
         static void delayMS(uint32_t millisec);
     private:
-        SFE_BusI2C bus;
+        sfe_STHS34PF80::QwI2C _i2cBus;
+        uint8_t deviceAddress;
 };
 
 class STHS34PF80_SPI : public STHS34PF80
@@ -46,7 +47,7 @@ class STHS34PF80_SPI : public STHS34PF80
     
     private: 
         
-        SFE_BusSPI bus; 
+        sfe_STHS34PF80::SfeSPI _spiBus; 
         
 };
 
