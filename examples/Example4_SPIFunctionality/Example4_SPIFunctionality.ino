@@ -71,7 +71,7 @@ void setup()
     SPI.begin();
 
     // Establish communication with device 
-    if(mySensor.begin(chipSelect) != 0)
+    if(mySensor.begin(chipSelect) == false)
     {
       Serial.println("Error setting up device - please check wiring.");
       while(1);

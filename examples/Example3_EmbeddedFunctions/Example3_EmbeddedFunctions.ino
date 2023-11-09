@@ -69,7 +69,7 @@ void setup()
     }
 
     // Establish communication with device 
-    if(mySensor.begin() != 0)
+    if(mySensor.begin() == false)
     {
       Serial.println("Error setting up device - please check wiring.");
       while(1);

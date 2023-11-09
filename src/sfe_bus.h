@@ -10,7 +10,7 @@
 // SparkFun Human Presence Sensor STHS34PF80 (Qwiic)
 // https://www.sparkfun.com/products/22494
 //
-// Written by Madison Chodikov @ SparkFun Electronics, October 2022
+// Written by Madison Chodikov @ SparkFun Electronics, October 2023
 //
 // Repository:
 //		hhttps://github.com/sparkfun/SparkFun_STHS34PF80_Arduino_Library/tree/main
