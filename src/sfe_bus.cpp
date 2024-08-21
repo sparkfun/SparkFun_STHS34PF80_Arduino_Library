@@ -48,7 +48,7 @@
 #include <Arduino.h>
 
 #define kMaxTransferBuffer 32
-#define SPI_READ 0x01
+#define SPI_READ 0x80
 
 // What we use for transfer chunk size
 const static uint16_t kChunkSize = kMaxTransferBuffer;
@@ -322,7 +322,7 @@ int SfeSPI::writeRegisterRegion(uint8_t i2c_address, uint8_t offset, const uint8
     for (i = 0; i < length; i++)
     {
         // Increment Address (Device does not do this when using SPI)
-        _spiPort->transfer((offset + i) << 1);
+        _spiPort->transfer(offset + i);
         _spiPort->transfer(*data++);
     }
 
@@ -372,7 +372,7 @@ int SfeSPI::readRegisterRegion(uint8_t addr, uint8_t reg, uint8_t *data, uint16_
 
     // ENS160 expects bits [7:1] to be the address and the leading
     // bit to be a "one" for a read.
-    reg = ((reg << 1) | SPI_READ);
+    reg = (reg  | SPI_READ);
     _spiPort->transfer(reg);
 
     for (i = 0; i < numBytes; i++)

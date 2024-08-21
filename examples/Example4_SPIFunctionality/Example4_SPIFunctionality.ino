@@ -84,7 +84,6 @@ void loop()
 {
   sths34pf80_tmos_drdy_status_t dataReady;
   mySensor.getDataReady(&dataReady);
-  Serial.println(dataReady.drdy);
 
   // Check whether sensor has new data - run through loop if data is ready
   if(dataReady.drdy == 1)
