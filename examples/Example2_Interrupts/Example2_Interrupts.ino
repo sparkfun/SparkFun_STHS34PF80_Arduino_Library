@@ -71,11 +71,7 @@ void setup()
     Serial.println("STHS34PF80 Example 2: Interrupts");
 
     // Begin I2C
-    if(Wire.begin() == 0)
-    {
-      Serial.println("I2C Error - check I2C Address");
-      while(1);
-    }
+    Wire.begin()
 
     // Establish communication with device 
     if(mySensor.begin() == false)
