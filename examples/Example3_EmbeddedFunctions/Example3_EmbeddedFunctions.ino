@@ -62,7 +62,7 @@ void setup()
     Serial.println("STHS34PF80 Example 3: Using Embedded Functions");
 
     // Begin I2C
-    Wire.begin()
+    Wire.begin();
 
     // Establish communication with device 
     if(mySensor.begin() == false)

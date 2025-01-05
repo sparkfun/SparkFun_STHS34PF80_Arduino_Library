@@ -61,7 +61,7 @@ void setup()
     Serial.println("STHS34PF80 Example 1: Basic Readings");
 
     // Begin I2C
-    Wire.begin()
+    Wire.begin();
 
     // Establish communication with device 
     if(mySensor.begin() == false)
